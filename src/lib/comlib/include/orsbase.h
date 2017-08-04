@@ -1,0 +1,26 @@
+#ifndef __MOTION_ORSBASE_H__
+#define __MOTION_ORSBASE_H__
+
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+#include <map>
+
+class OrsBase
+{
+private:
+    typedef boost::function<int32_t(void*)> event_func;
+    struct event_info
+    {
+        event_func func_;
+    };
+    typedef std::map<int32_t, event_info> M_event_info;
+    M_event_info    cmdEvent;
+protected:
+    virtual int32_t  add_cmd_function(int32_t cmd ,const event_func& cmd_function);
+    virtual bool del_cmd_function(int cmd);
+public:
+    virtual ~OrsBase();
+    virtual bool throwCommand(uint32_t cmd, void* data);
+};
+
+#endif

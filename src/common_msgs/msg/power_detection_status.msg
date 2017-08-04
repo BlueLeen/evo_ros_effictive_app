@@ -1,0 +1,9 @@
+uint8  charge
+uint8  battery_percent
+uint16 currend_electricity
+uint16 projector_voltage
+uint16 pad_voltage
+uint16 motor_voltage
+uint16 board_voltage
+uint16 battery_performance
+uint16 battery_voltage

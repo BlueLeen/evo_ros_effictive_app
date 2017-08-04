@@ -1,0 +1,4 @@
+---
+uint16 ultra_count			#获取的超声波个数
+ultra_info[2] ultra1_info		#接收到从充电桩超声波1发射信号的探头数据
+ultra_info[2] ultra2_info		#接收到从充电桩超声波2发射信号的探头数据

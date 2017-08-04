@@ -1,0 +1,3 @@
+---
+bool is_complete
+uint16 status

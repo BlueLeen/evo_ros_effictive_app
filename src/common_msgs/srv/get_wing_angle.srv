@@ -1,0 +1,3 @@
+---
+uint8 left_wing		#左翅膀角度
+uint8 right_wing	#右翅膀角度

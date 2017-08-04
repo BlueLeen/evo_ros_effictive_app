@@ -1,0 +1,17 @@
+<?xml version ="1.0"?>
+<package>
+<name>comlib</name>
+<version >0.0.1 </version >
+<description >
+encapsulating common function library
+</description >
+<maintainer email="707196192@qq.com">
+Keen
+</maintainer >
+<license >TODO</license >
+<buildtool_depend>catkin </buildtool_depend>    
+<build_depend>roscpp</build_depend>
+<run_depend>roscpp</run_depend>
+<build_depend>common_msgs</build_depend>
+<run_depend>common_msgs</run_depend>
+</package>

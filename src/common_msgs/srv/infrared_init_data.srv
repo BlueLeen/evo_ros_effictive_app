@@ -1,0 +1,4 @@
+uint16 bitmap	#按位排列各红外，0-不订阅 1-订阅
+---
+infrared_info_list info_list
+
