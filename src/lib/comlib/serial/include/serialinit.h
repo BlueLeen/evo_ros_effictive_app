@@ -23,14 +23,15 @@ extern int serial_parse_data(common_msgs::msgdata* msg_data);
 
 typedef struct _serial_init
 {
-	_serial_init(SERIAL_TYPE type, char flag,
+	_serial_init(SERIAL_TYPE type, std::string flag, void* orr,
 				send_data snd=serial_sends_data,
 				recv_data rcv=serial_parse_data)
-			:port_num(type),port_flg(flag),write_data(snd),parse_data(rcv)
+			:port_num(type),node_flg(flag),orr_par(orr),write_data(snd),parse_data(rcv)
 	{
 	}
 	SERIAL_TYPE port_num;
-	char 		port_flg;
+	std::string node_flg;
+	void*		orr_par;
 	send_data	write_data;
 	recv_data	parse_data;
 }SerialInit;

@@ -62,15 +62,15 @@ add_library(serial
 # line should be copied for each distinct executable in
 # the package .
 if(ANDROIDSWITCH)
-target_link_libraries(ulog ${catkin_LIBRARIES} log)
+	target_link_libraries(ulog ${catkin_LIBRARIES} log)
 elseif(X86SWITCH)
-target_link_libraries(ulog ${catkin_LIBRARIES})
+	target_link_libraries(ulog ${catkin_LIBRARIES})
 else()
-target_link_libraries(ulog ${catkin_LIBRARIES})
-target_link_libraries(hwrlib ${catkin_LIBRARIES} inputs_user outputs_user)
+	target_link_libraries(ulog ${catkin_LIBRARIES})
+	#target_link_libraries(hwrlib ${catkin_LIBRARIES} inputs_user outputs_user)
 endif()
 target_link_libraries(order ${catkin_LIBRARIES} ulog)
-target_link_libraries(serial ${catkin_LIBRARIES} ulog)
+target_link_libraries(serial ${catkin_LIBRARIES} ulog order)
 
 #install(DIRECTORY lib/
 #   DESTINATION ${CATKIN_GLOBAL_LIB_DESTINATION}

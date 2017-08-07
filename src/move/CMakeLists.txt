@@ -15,7 +15,7 @@ catkin_package()
 # Declare the executable , along with its sourcefiles . If
 # there are multiple executables ,use multiple copies of
 # this line .
-add_executable (move src/move_main.cpp)
+add_executable (move src/move_main.cpp src/motor2local.cpp)
 # Specify libraries against which to link. Again , this
 # line should be copied for each distinct executable in
 # the package .
