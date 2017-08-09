@@ -8,7 +8,6 @@
 
 static SerialInit* g_serinfo = NULL;
 static BoostSerial* g_pBs = NULL;
-static boost::asio::io_service g_ios;
 static uint8_t g_ucRecvData[SERIAL_DATA_LEN];
 static int32_t g_nSize;
 
@@ -49,11 +48,6 @@ static int recv_extract_msg(common_msgs::msgdata* msg_data)
     return 0;
 }
 
-void thread_start()
-{
-	g_ios.run();
-}
-
 void thread_recv(SerialInit* serinfo)
 {
     common_msgs::msgdata msg;
@@ -79,13 +73,19 @@ void thread_recv(SerialInit* serinfo)
     }
 }
 
+void thread_start(SerialInit* si)
+{
+	boost::asio::io_service ios;
+	g_pBs = new BoostSerial(si->port_num, ios);
+	g_serinfo = si;
+	boost::thread(boost::bind(&thread_recv, g_serinfo));
+	ios.run();
+}
+
 bool serial_init(SerialInit* serinfo)
 {
 	UDEBUG("serial init.");
-	g_pBs = new BoostSerial(serinfo->port_num, g_ios);
-	g_serinfo = serinfo;
-	boost::thread(boost::bind(thread_start));
-	boost::thread(boost::bind(&thread_recv, g_serinfo));
+	boost::thread(boost::bind(thread_start, serinfo));
 	return true;
 }
 
@@ -121,6 +121,6 @@ int serial_parse_data(common_msgs::msgdata* msg_data)
 	UINFO("[%s]serial command to local:0x%08x", g_serinfo->node_flg.c_str(), msg_data->cmd);
 	msg_data->cmd = msg_data->cmd & 0xffff;
 	OrrBase* orb = (OrrBase*)g_serinfo->orr_par;
-	orb->parseCommand(*msg_data, NULL);
+	orb->parseCommand(*msg_data, g_serinfo->extra_data);
     return 0;
 }

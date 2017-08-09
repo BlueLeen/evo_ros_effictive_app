@@ -10,7 +10,8 @@ public:
 	MotorToLocal();
 	~MotorToLocal();
 private:
-	int32_t feedbackSpecifySpeedDistanceComplete(const common_msgs::msgdata& msg, void* pData);
+	int32_t feedbackVersionNumberSn(const common_msgs::msgdata& msg, void* pData);
+	int32_t feedbackAbnormityEvent(const common_msgs::msgdata& msg, void* pData);
 };
 
 #endif
