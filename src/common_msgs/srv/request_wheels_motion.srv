@@ -1,8 +1,8 @@
-uint8       rate                         #0-使用综合距离 1-使用盲区数据 2-使用盲区外数据
-uint8       infrared_enable     #按位打开红外探头
-uint8[2]  ultra_enable           #按位打开超声波探头
-uint8	  camera_enable			  #打开双目避障
-uint8 dir	                                #0-停止 1-向前 2-向后 3-转弯
-uint8 is_new					#是否为新指令，1-新指令，0-心跳
+#uint8       rate                         #0-使用综合距离 1-使用盲区数据 2-使用盲区外数据
+#uint8       infrared_enable     		 #按位打开红外探头
+uint8[2]    ultra_enable           		 #按位打开超声波探头
+#uint8	    camera_enable			  	 #打开双目避障
+#uint8 	    dir	                         #0-停止 1-向前 2-向后 3-转弯
+uint8       is_new						 #是否为新指令，1-新指令，0-心跳
 ---
-uint8 b_allow	#0-不允许 1-允许
+uint8 		b_allow						 #0-不允许 1-允许

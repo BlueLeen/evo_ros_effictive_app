@@ -4,8 +4,6 @@
 #include "orrbase.h"
 #include <stdlib.h>
 
-#define         MAKECMD(srcid, dstid, cmd)                        (((srcid) << 24) | ((dstid << 16) | cmd))
-
 static SerialInit* g_serinfo = NULL;
 static BoostSerial* g_pBs = NULL;
 static uint8_t g_ucRecvData[SERIAL_DATA_LEN];
@@ -92,16 +90,17 @@ bool serial_init(SerialInit* serinfo)
 int serial_sends_data(const common_msgs::msgdata& msg_data)
 {
     uint8_t tmp[SERIAL_DATA_LEN] = {0};
-    uint8_t frm_reserve = 0x00;
-    uint8_t frm_length  = (uint8_t)msg_data.inlen;
-    memcpy(&tmp[0], &frm_reserve, 1);
-    memcpy(&tmp[1], &frm_length, 1);
-    memcpy(&tmp[2], (void*)&msg_data.input[0], msg_data.inlen);
+    tmp[0] = msg_data.cmd & 0xff;
+    tmp[1] = (msg_data.cmd>>16) & 0xff;
+    tmp[2] = (msg_data.cmd>>24) & 0xff;
+    tmp[3] = msg_data.reserved[0];
+    tmp[4] = msg_data.inlen;
+    memcpy(tmp+5, &msg_data.input[0], msg_data.inlen);
     std::string strText;
     strText.reserve(256);
     char szTmp[100] = { 0 };
-    int sndSize = msg_data.inlen+2;
-    snprintf(szTmp, sizeof(szTmp), "l2%c scmd:0x%x inlen:%d input", g_serinfo->node_flg[0], msg_data.cmd<<16|msg_data.input[2], sndSize);
+    snprintf(szTmp, sizeof(szTmp), "l2%c scmd:0x%x inlen:%d input",
+    		g_serinfo->node_flg[0], msg_data.cmd<<16, msg_data.inlen);
     strText += szTmp;
     if(msg_data.inlen < 128)
     {
@@ -112,7 +111,7 @@ int serial_sends_data(const common_msgs::msgdata& msg_data)
         }
     }
     UINFO(strText.c_str());
-    g_pBs->sendData(tmp, sndSize);
+    g_pBs->sendData(tmp, msg_data.inlen+5);
 	return 0;
 }
 

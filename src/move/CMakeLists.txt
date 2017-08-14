@@ -15,11 +15,13 @@ catkin_package()
 # Declare the executable , along with its sourcefiles . If
 # there are multiple executables ,use multiple copies of
 # this line .
-add_executable (move src/move_main.cpp src/motor2local.cpp)
+add_executable (move src/move_main.cpp src/motor2local.cpp
+					 src/local2motor.cpp src/movecenter.cpp
+					 src/securitypolicy.cpp)
 # Specify libraries against which to link. Again , this
 # line should be copied for each distinct executable in
 # the package .
-target_link_libraries(move ${catkin_LIBRARIES} serial order ulog)
+target_link_libraries(move ${catkin_LIBRARIES} serial order ulog endian_convert)
   
 install(TARGETS move
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

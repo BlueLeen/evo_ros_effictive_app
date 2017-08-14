@@ -3,7 +3,11 @@
 
 #include "common_msgs/msgdata.h"
 
-#define SERIAL_DATA_LEN             1024        //串口数据最大大小
+#define 		SERIAL_DATA_LEN             					  1024 //串口数据最大大小
+#define 		LOCALMODULE										  0x1
+#define 		SONICMODULE										  0x2
+#define 		MOTORMODULE										  0x3
+#define         MAKECMD(srcid, dstid, cmd)                        (((srcid) << 24) | ((dstid << 16) | cmd))
 
 typedef enum
 {

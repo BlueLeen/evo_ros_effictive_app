@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project (comlib)
 #include(${CMAKE_INSTALL_PREFIX}/../CMakeLists.txt)
 
+option(ROSASYNCTIMERSWITCH "Run in android system" OFF)
 option(ANDROIDSWITCH "Run in android system" OFF)
 option(X86SWITCH "Run in X86_64-PC system" OFF)
 if(ANDROIDSWITCH)
@@ -16,7 +17,7 @@ endif(X86SWITCH)
 find_package(catkin REQUIRED COMPONENTS roscpp common_msgs)
 
 # Specify locations of header files .
-include_directories(include serial/include ${catkin_INCLUDE_DIRS})
+include_directories(include serial/include timer/include ${catkin_INCLUDE_DIRS})
 link_directories(${PROJECT_SOURCE_DIR}/lib ${catkin_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/lib/)
 
 #message("keen1:#############################"${PROJECT_SOURCE_DIR})
@@ -57,6 +58,14 @@ add_library(order
 add_library(serial  
 	 serial/src/serialinit.cpp
      serial/src/boostserial.cpp)
+     
+if(ROSASYNCTIMERSWITCH)	 
+	add_library(asynctimer  
+	 	timer/src/rosasynctimer.cpp)
+else()	 	
+	add_library(asynctimer  
+	 	timer/src/asynctimer.cpp)
+endif()	 	 
 
 # Specify libraries against which to link. Again , this
 # line should be copied for each distinct executable in
@@ -71,6 +80,7 @@ else()
 endif()
 target_link_libraries(order ${catkin_LIBRARIES} ulog)
 target_link_libraries(serial ${catkin_LIBRARIES} ulog order)
+target_link_libraries(asynctimer ${catkin_LIBRARIES} ulog)
 
 #install(DIRECTORY lib/
 #   DESTINATION ${CATKIN_GLOBAL_LIB_DESTINATION}
@@ -78,6 +88,9 @@ target_link_libraries(serial ${catkin_LIBRARIES} ulog order)
 
 install(FILES serial/include/serialinit.h
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+  
+install(FILES timer/include/asynctimer.h
+	DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}) 
 
 install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
